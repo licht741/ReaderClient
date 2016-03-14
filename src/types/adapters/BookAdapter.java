@@ -118,7 +118,7 @@ public class BookAdapter {
         bookNameBuilder.append(author.get().trim() + " - ");
         bookNameBuilder.append(title.get().trim() + " (");
         bookNameBuilder.append(publishHouse.get().trim() + " ,");
-        bookNameBuilder.append(year.get() + ")");
+        bookNameBuilder.append((year.get() == 0 ? "<не известно>" : year.get()) + ")");
         return bookNameBuilder.toString();
     }
 }
