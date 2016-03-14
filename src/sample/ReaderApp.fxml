@@ -9,7 +9,7 @@
 
 <AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="613.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="sample.Controller">
   <children>
-    <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+    <TabPane fx:id="mainTabPane" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       <tabs>
         <Tab text="Авторизация">
           <content>
@@ -23,15 +23,15 @@
                 </Label>
                 <TextField fx:id="authPasswdTextField" layoutX="122.0" layoutY="108.0" prefWidth="200.0" promptText="Введите пароль" />
                 <Label font="$x1" layoutX="67.0" layoutY="110.0" text="Пароль" />
-                <Button fx:id="authButton" font="$x1" layoutX="480.0" layoutY="81.0" mnemonicParsing="false" text="Авторизация" textAlignment="CENTER" onAction="#authButtonHandler"/>
+                <Button fx:id="authButton" font="$x1" layoutX="480.0" layoutY="81.0" mnemonicParsing="false" onAction="#authButtonHandler" text="Авторизация" textAlignment="CENTER" />
                 <TextField fx:id="authNameTextField" layoutX="122.0" layoutY="164.0" prefWidth="200.0" />
                 <Label id="Имя" font="$x1" layoutX="77.0" layoutY="166.0" text="Имя" />
-                <Button fx:id="regButton" font="$x1" layoutX="482.0" layoutY="110.0" mnemonicParsing="false" text="Регистрация" onAction="#regButtonHandler"/>
+                <Button fx:id="regButton" font="$x1" layoutX="482.0" layoutY="110.0" mnemonicParsing="false" onAction="#regButtonHandler" text="Регистрация" />
               </children>
             </AnchorPane>
           </content>
         </Tab>
-        <Tab disable="true" text="Взятые книги" fx:id="UserBooksTab">
+        <Tab fx:id="UserBooksTab" disable="true" text="Взятые книги" onSelectionChanged="#UserBooksTabUpdateHandler">
           <content>
             <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="569.0" prefWidth="682.0">
               <children>
@@ -48,7 +48,7 @@
             </AnchorPane>
           </content>
         </Tab>
-        <Tab disable="true" text="Взять книгу" fx:id="TakeBookTab">
+        <Tab fx:id="TakeBookTab" disable="true" text="Взять книгу" onSelectionChanged="#TakeBookTabUpdateHandler">
           <content>
             <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
               <children>
@@ -58,7 +58,7 @@
             </AnchorPane>
           </content>
         </Tab>
-        <Tab disable="true" text="Заказ книг" fx:id="OrderBookTab">
+        <Tab fx:id="OrderBookTab" disable="true" text="Заказ книг" onSelectionChanged="#OrderBookTabUpdateHandler">
           <content>
             <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
               <children>

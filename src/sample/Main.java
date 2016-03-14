@@ -23,12 +23,6 @@ public class Main extends Application {
 
     }
 
-    public void setMainAppForController(Controller controller) {
-        controller.setMainApp(this);
-    }
-
-
-
     public static void main(String[] args) {
         launch(args);
     }

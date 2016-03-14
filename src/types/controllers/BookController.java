@@ -24,10 +24,12 @@ public class BookController {
 
     private int userID;
 
+    public final ObservableList<BookAdapter> allBooks;
     public final ObservableList<BookAdapter> availableBooks;
     public final ObservableList<BookAdapter> booksForOrder;
 
     private BookController() {
+        allBooks       = FXCollections.observableArrayList();
         availableBooks = FXCollections.observableArrayList();
         booksForOrder  = FXCollections.observableArrayList();
 
@@ -41,14 +43,24 @@ public class BookController {
         return instance;
     }
 
-    public void updateData() {
+    public void updateAllBooks() {
+        allBooks.clear();
+        List<Book> arrayList = port.getAllBooks();
+        for (Book book : arrayList) {
+            BookAdapter bookAdapter = new BookAdapter(book);
+            allBooks.add(bookAdapter);
+        }
+    }
+    public void updateAvailableBooks() {
         availableBooks.clear();
         List<Book> arrayList = port.getAvailableBooks();
         for (Book book : arrayList) {
             BookAdapter bookAdapter = new BookAdapter(book);
             availableBooks.add(bookAdapter);
         }
+    }
 
+    public void updateBookForOrder() {
         booksForOrder.clear();
 
         List<Book> ordBooks = port.getAllBooks();
@@ -59,10 +71,10 @@ public class BookController {
     }
 
     public int makeOrder(int index, int count) {
-        int bookID = availableBooks.get(index).getId();
+        int bookID = booksForOrder.get(index).getId();
         int retResult = port.makeOrder(bookID, count);
         if (retResult > 0)
-            BookController.getInstance().updateData();
+            BookController.getInstance().updateAvailableBooks();
         return retResult;
     }
 

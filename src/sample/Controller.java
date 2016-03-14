@@ -8,10 +8,10 @@ import types.builders.*;
 import types.controllers.BookController;
 import types.controllers.OperationController;
 
+import java.security.AllPermission;
 import java.util.Date;
 
 public class Controller {
-    private Main mainApp;
 
     /*
      * Элементы управления
@@ -65,6 +65,21 @@ public class Controller {
     @FXML
     public void initialize() {}
 
+    @FXML
+    private void UserBooksTabUpdateHandler() {
+        OperationController.getInstance().updateData();
+    }
+
+    @FXML
+    private void TakeBookTabUpdateHandler() {
+        BookController.getInstance().updateAvailableBooks();
+    }
+
+    @FXML
+    private void OrderBookTabUpdateHandler() {
+        BookController.getInstance().updateAllBooks();
+    }
+
 
     /*
      *
@@ -81,7 +96,15 @@ public class Controller {
             return;
         }
 
-        int retResult = OperationController.getInstance().returnBook(selectedIndex);
+        int retResult;
+        try {
+            retResult = OperationController.getInstance().returnBook(selectedIndex);
+        }
+        catch (javax.xml.ws.WebServiceException exc) {
+            AlertAppDialogBuilder.getConnectionErrorAlert().showAndWait();
+            return;
+        }
+
         switch (retResult) {
             case -2:
                 AlertReturningBookBuilder.getSystemErrorAlert().showAndWait();
@@ -107,8 +130,15 @@ public class Controller {
             AlertTakingBookBuilder.getBookIsNotSelectedAlert().showAndWait();
             return;
         }
+        int retResult;
+        try {
+            retResult = BookController.getInstance().takeBook(selectedIndex);
+        }
+        catch (javax.xml.ws.WebServiceException exc) {
+            AlertAppDialogBuilder.getConnectionErrorAlert().showAndWait();
+            return;
+        }
 
-        int retResult = BookController.getInstance().takeBook(selectedIndex);
         switch (retResult) {
             case -6:
                 AlertTakingBookBuilder.getSystemErrorAlert().showAndWait();
@@ -146,7 +176,15 @@ public class Controller {
             return;
         }
 
-        int retResult = OperationController.getInstance().extendUsage(selectedIndex);
+        int retResult;
+        try {
+            retResult = OperationController.getInstance().extendUsage(selectedIndex);
+        }
+        catch (javax.xml.ws.WebServiceException exc) {
+            AlertAppDialogBuilder.getConnectionErrorAlert().showAndWait();
+            return;
+        }
+
         switch (retResult) {
             case -2:
                 AlertExendUsageBuilder.getSystemErrorAlert().showAndWait();
@@ -173,8 +211,14 @@ public class Controller {
             AlertTakingBookBuilder.getBookIsNotSelectedAlert().showAndWait();
             return;
         }
-        int retResult = BookController.getInstance().makeOrder(selectedIndex, 1);
-
+        int retResult;
+        try {
+            retResult = BookController.getInstance().makeOrder(selectedIndex, 1);
+        }
+        catch (javax.xml.ws.WebServiceException exc) {
+            AlertAppDialogBuilder.getConnectionErrorAlert().showAndWait();
+            return;
+        }
         switch (retResult) {
             case -2:
                 AlertMakeOrderBuilder.getSystemErrorAlert().showAndWait();
@@ -199,7 +243,15 @@ public class Controller {
         String login = authLognTextField.getText();
         String password = authPasswdTextField.getText();
         String name = authNameTextField.getText();
-        int result = AuthorizationController.getInstance().registration(login, password, name);
+        int result;
+        try {
+            result = AuthorizationController.getInstance().registration(login, password, name);
+        }
+        catch (javax.xml.ws.WebServiceException exc) {
+            AlertAppDialogBuilder.getConnectionErrorAlert().showAndWait();
+            return;
+        }
+
         switch (result) {
             case -1:
                 AlertRegistrationDialogBuilder.getExistingLoginErrorAlert().showAndWait();
@@ -225,7 +277,16 @@ public class Controller {
         String login = authLognTextField.getText();
         String passwd = authPasswdTextField.getText();
 
-        int result = AuthorizationController.getInstance().authorization(login, passwd);
+        int result;
+
+        try {
+            result = AuthorizationController.getInstance().authorization(login, passwd);
+        }
+        catch (javax.xml.ws.WebServiceException exc) {
+            AlertAppDialogBuilder.getConnectionErrorAlert().showAndWait();
+            return;
+        }
+
         switch (result) {
             case -1:
                 AlertAuthorizationDialogBuilder.getAuthErrorAlert().showAndWait();
@@ -253,7 +314,11 @@ public class Controller {
         OrderBookTab.setDisable(false);
         authNameTextField.setDisable(true);
         OperationController.getInstance().updateData();
-        BookController.getInstance().updateData();
+
+        BookController.getInstance().updateAllBooks();
+        BookController.getInstance().updateAvailableBooks();
+        BookController.getInstance().updateBookForOrder();
+
         initializeBooksTable();
         initializeAvailableBooksList();
         initializeOrderBooksList();
@@ -273,10 +338,4 @@ public class Controller {
     private void initializeOrderBooksList() {
         booksForOrderListView.setItems(BookController.getInstance().booksForOrder);
     }
-
-    public void setMainApp(Main mainApp) {
-        this.mainApp = mainApp;
-    }
-
-
 }
