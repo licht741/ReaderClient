@@ -15,13 +15,13 @@
           <content>
             <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
               <children>
-                <TextField fx:id="authLognTextField" layoutX="122.0" layoutY="80.0" prefWidth="200.0" promptText="Введите ваш логин" />
+                <TextField fx:id="authLognTextField" layoutX="122.0" layoutY="80.0" prefWidth="200.0" promptText="Введите ваш логин" text="User" />
                 <Label layoutX="71.0" layoutY="82.0" text="Логин">
                   <font>
                     <Font size="14.0" fx:id="x1" />
                   </font>
                 </Label>
-                <TextField fx:id="authPasswdTextField" layoutX="122.0" layoutY="108.0" prefWidth="200.0" promptText="Введите пароль" />
+                <TextField fx:id="authPasswdTextField" layoutX="122.0" layoutY="108.0" prefWidth="200.0" promptText="Введите пароль" text="masterkey" />
                 <Label font="$x1" layoutX="67.0" layoutY="110.0" text="Пароль" />
                 <Button fx:id="authButton" font="$x1" layoutX="480.0" layoutY="81.0" mnemonicParsing="false" onAction="#authButtonHandler" text="Авторизация" textAlignment="CENTER" />
                 <TextField fx:id="authNameTextField" layoutX="122.0" layoutY="164.0" prefWidth="200.0" />

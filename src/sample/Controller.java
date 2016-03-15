@@ -8,6 +8,7 @@ import types.builders.*;
 import types.controllers.BookController;
 import types.controllers.OperationController;
 
+import java.lang.reflect.InvocationTargetException;
 import java.security.AllPermission;
 import java.util.Date;
 
@@ -67,17 +68,36 @@ public class Controller {
 
     @FXML
     private void UserBooksTabUpdateHandler() {
-        OperationController.getInstance().updateData();
+        try {
+            if (UserBooksTab.isSelected())
+                OperationController.getInstance().updateData();
+        }
+        catch (Exception exc) {
+            AlertAppDialogBuilder.getConnectionErrorAlert().showAndWait();
+        }
+
     }
 
     @FXML
     private void TakeBookTabUpdateHandler() {
-        BookController.getInstance().updateAvailableBooks();
+        try {
+            if (TakeBookTab.isSelected())
+                BookController.getInstance().updateAvailableBooks();
+        }
+        catch (Exception exc) {
+            AlertAppDialogBuilder.getConnectionErrorAlert().showAndWait();
+        }
     }
 
     @FXML
     private void OrderBookTabUpdateHandler() {
-        BookController.getInstance().updateAllBooks();
+        try{
+            if (OrderBookTab.isSelected())
+                BookController.getInstance().updateAllBooks();
+        }
+        catch (Exception exc) {
+            AlertAppDialogBuilder.getConnectionErrorAlert().showAndWait();
+        }
     }
 
 
@@ -282,10 +302,11 @@ public class Controller {
         try {
             result = AuthorizationController.getInstance().authorization(login, passwd);
         }
-        catch (javax.xml.ws.WebServiceException exc) {
+        catch (Exception exc) {
             AlertAppDialogBuilder.getConnectionErrorAlert().showAndWait();
             return;
         }
+
 
         switch (result) {
             case -1:
@@ -293,6 +314,7 @@ public class Controller {
                 break;
             case -2:
                 AlertAuthorizationDialogBuilder.getUserDisabledAlert().showAndWait();
+                UserBooksTab.setDisable(false);
                 break;
             case -3:
                 AlertAuthorizationDialogBuilder.getSystemErrorAlert().showAndWait();
